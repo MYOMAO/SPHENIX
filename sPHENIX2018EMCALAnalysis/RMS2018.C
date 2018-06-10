@@ -159,9 +159,10 @@ TitleName = Form("%s_%s_%s_%s",Yeartag.Data(),Typetag.Data(),Methodtag.Data(),re
 
 	//Done Projection//
 
+	if(sPHENIXStyle == 1){
 	gROOT->LoadMacro("sPhenixStyle.C");
 	SetsPhenixStyle();
-
+	}
 
 	for(int i = XBinMin; i < XBinMax; i++)
 	{
@@ -180,7 +181,7 @@ TitleName = Form("%s_%s_%s_%s",Yeartag.Data(),Typetag.Data(),Methodtag.Data(),re
 	MEHis->GetYaxis()->SetTitle("Counts");
 	MEHis->SetTitle(Form("Mean Energy Distribution for %s",TitleName.Data()));
 	MEHis->Draw();
-	TCanvas *c2 = new TCanvas("c2","c2",800,800);
+	TCanvas *c2 = new TCanvas("c2","c2",600,600);
 	c2->cd();
 
 
