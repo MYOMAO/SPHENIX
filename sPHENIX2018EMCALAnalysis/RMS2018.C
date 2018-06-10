@@ -180,8 +180,11 @@ TitleName = Form("%s_%s_%s_%s",Yeartag.Data(),Typetag.Data(),Methodtag.Data(),re
 	MEHis->GetYaxis()->SetTitle("Counts");
 	MEHis->SetTitle(Form("Mean Energy Distribution for %s",TitleName.Data()));
 	MEHis->Draw();
+	TCanvas *c2 = new TCanvas("c2","c2",800,800);
+	c2->cd();
 
-	c1->SaveAs(Form("Results/%d/RMS-%s.png",year,TitleName.Data()));
+
+	c2->SaveAs(Form("Results/%d/RMS-%s.png",year,TitleName.Data()));
 	TFile *fout = new TFile(RMSFile.Data(),"RECREATE");
 	fout->cd();
 	MEHis->Write();
@@ -195,8 +198,8 @@ TitleName = Form("%s_%s_%s_%s",Yeartag.Data(),Typetag.Data(),Methodtag.Data(),re
 
 
 	MEHis->Draw();
-	c1->Update();
-	c1->SaveAs(Form("Results/%dRMSPlotGausFitted.png",year,));
+	c2->Update();
+	c2->SaveAs(Form("Results/%dRMSPlotGausFitted.png",year,));
 
 
 
@@ -230,7 +233,7 @@ TitleName = Form("%s_%s_%s_%s",Yeartag.Data(),Typetag.Data(),Methodtag.Data(),re
 	MEHisRe->SetTitle(Form("Rescaled Mean Energy Normalized Distribution for %d 10 Degree Tilted Scan",year));
 	MEHisRe->Scale(1.0/MEHisRe->Integral());
 	MEHisRe->Draw();
-	c1->SaveAs(Form("Results/%dRMSPlotRescaled.png",year,));
+	c2->SaveAs(Form("Results/%dRMSPlotRescaled.png",year,));
 	MEHisRe->Write();
 	fout->Close();
 
