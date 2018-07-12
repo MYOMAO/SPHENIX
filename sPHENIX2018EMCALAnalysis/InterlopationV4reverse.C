@@ -37,6 +37,11 @@ void InterlopationV4reverse()
 	if(Method == 1) Methodtag ="Fits";
 	if(recab == 0)  recabtag="prod";
 	if(recab == 1)  recabtag="recalib";
+	if(year == 2017){
+	if ( inputfile==1) Typetag = "Interpolation-10-Degree-Tilted";
+	if ( inputfile==0) Typetag = "Interpolation-0-Degree-Tilted";
+	}
+	if(year == 2018){
 	if(newdata == 0)
 	{
 	if ( inputfile==2) Typetag = "Interpolation-sPHENIX-Rotation-Preview-Reversed";
@@ -50,19 +55,27 @@ void InterlopationV4reverse()
 	if ( inputfile==1) Typetag = "Interpolation-sPHENIX-Rotation-Reversed";
 	if ( inputfile==0) Typetag = "Interpolation-Dual-Channel-Reversed";
 	}
-
+	}
 
 	TString OutPlotName;
 	OutPlotName = Form("Results/%s_%s_%s_%s.png",Yeartag.Data(),Typetag.Data(),Methodtag.Data(),recabtag.Data());
 	TString TitleName; 
 	int binx;
 
+	if(year == 2018){
 	if(newdata == 1)
 	{
 	if ( inputfile==0) TitleName = "Fifth Position Scan (2018b, April 2018, Dual Channeling Rotation)";
 	if ( inputfile==1) TitleName = "Sixth Position Scan (2018b, April 2018, sPHENIX+5)";
 	if ( inputfile==2) TitleName = "Seventh Position Scan (2018b, April 2018, sPHENIX)";
 	}
+	}
+
+	if(year == 2017){
+	if ( inputfile==0) TitleName = "2017 Data: Energy vs Horizontal and Vertical Positions After Interpolation - 0 Degree Tilted";
+	if ( inputfile==1) TitleName = "Energy vs Horizontal and Vertical Positions After Interpolation - 10 Degree Tilted";
+	}
+
 
 
 int forward = 2;
@@ -147,13 +160,19 @@ TitleName = Form("%s_%s_%s_%s",Yeartag.Data(),Typetag.Data(),Methodtag.Data(),re
 
 	ReverseEnPo->GetXaxis()->SetTitle("Horizontal Axis (mm)");
 	ReverseEnPo->GetYaxis()->SetTitle("Vertical Axis (mm)");
+	if(year == 2018){
 	if(newdata == 1)
 	{
-	if ( inputfile==0) TitleName = "Fifth positionscan (2018b, April 2018, Dual Channeling Rotation)";
+	if ( inputfile==0) TitleName = "Fifth Position Scan (2018b, April 2018, Dual Channeling Rotation)";
 	if ( inputfile==1) TitleName = "Sixth Position Scan (2018b, April 2018, sPHENIX+5)";
 	if ( inputfile==2) TitleName = "Seventh Position Scan (2018b, April 2018, sPHENIX)";
 	}
+	}
 
+	if(year == 2017){
+	if ( inputfile==0) TitleName = "2017 Data: Energy vs Horizontal and Vertical Positions After Interpolation - 0 Degree Tilted";
+	if ( inputfile==1) TitleName = "Energy vs Horizontal and Vertical Positions After Interpolation - 10 Degree Tilted";
+	}
 
 	ReverseEnPo->SetTitle(Form("%s Beofre Interpolation",TitleName.Data()));
 	ReverseEnPo->SetMaximum(EmaxHis);
@@ -395,6 +414,168 @@ TitleName = Form("%s_%s_%s_%s",Yeartag.Data(),Typetag.Data(),Methodtag.Data(),re
 
 	Inter->Draw("colz");
 
+
+	if(year == 2017){
+	// Horizontal line Tower 6 //
+	TLine *l1 = new TLine(Xmin,y1,Xmax,y1);
+	l1->SetLineWidth(1);
+	l1->Draw("same");
+
+
+	TLatex* texCol;
+	texCol= new TLatex(Xmin,y1,"Row 1");
+	texCol->SetTextAlign(11);
+	texCol->SetTextSize(0.03);
+	texCol->SetTextFont(42);
+	texCol->Draw();
+
+
+	// Horizontal line Tower 5 //
+
+
+	TLine *l2 = new TLine(Xmin,y2,Xmax,y2);
+	l2->SetLineWidth(1);
+	l2->Draw("same");
+
+
+
+	texCol= new TLatex(Xmin,y2,"Row 2");
+	texCol->SetTextAlign(11);
+	texCol->SetTextSize(0.03);
+	texCol->SetTextFont(42);
+	texCol->Draw();
+
+	// Horizontal line Tower 4//
+
+
+	TLine *l3 = new TLine(Xmin,y3,Xmax,y3);
+	l3->SetLineWidth(1);
+	l3->Draw("same");
+
+
+
+	texCol= new TLatex(Xmin,y3,"Row 3");
+	texCol->SetTextAlign(11);
+	texCol->SetTextSize(0.03);
+	texCol->SetTextFont(42);
+	texCol->Draw();
+
+
+
+	// Horizontal line Tower 3 //
+
+
+	TLine *l4 = new TLine(Xmin,y4,Xmax,y4);
+	l4->SetLineWidth(1);
+	l4->Draw("same");
+
+
+
+	texCol= new TLatex(Xmin,y4,"Row 4");
+	texCol->SetTextAlign(11);
+	texCol->SetTextSize(0.03);
+	texCol->SetTextFont(42);
+	texCol->Draw();
+
+	// Horizontal line Tower 2 //
+
+
+	TLine *l4 = new TLine(Xmin,y5,Xmax,y5);
+	l4->SetLineWidth(1);
+	l4->Draw("same");
+
+
+
+
+	texCol= new TLatex(Xmin,y5,"Row 5");
+	texCol->SetTextAlign(11);
+	texCol->SetTextSize(0.03);
+	texCol->SetTextFont(42);
+	texCol->Draw();
+
+
+	// Vertical line Tower 6 //
+
+
+	TLine *l14 = new TLine(x1,Ymin,x1,Ymax);
+	l14->SetLineWidth(1);
+	l14->Draw("same");
+
+
+	TLatex* texCol;
+	texCol= new TLatex(x1,Ymax,"Column 1");
+	texCol->SetTextAlign(33);
+	texCol->SetTextSize(0.03);
+	texCol->SetTextFont(42);
+	texCol->Draw();
+
+
+
+	TLine *l6 = new TLine(x2,Ymin,x2,Ymax);
+	l6->SetLineWidth(1);
+	l6->Draw("same");
+
+
+	TLatex* texCol;
+	texCol= new TLatex(x2,Ymax,"Column 2");
+	texCol->SetTextAlign(33);
+	texCol->SetTextSize(0.03);
+	texCol->SetTextFont(42);
+	texCol->Draw();
+
+
+	// Horizontal line Tower 5 //
+
+
+	TLine *l7 = new TLine(x3,Ymin,x3,Ymax);
+	l7->SetLineWidth(1);
+	l7->Draw("same");
+
+
+	TLatex* texCol;
+	texCol= new TLatex(x3,Ymax,"Column 3");
+	texCol->SetTextAlign(33);
+	texCol->SetTextSize(0.03);
+	texCol->SetTextFont(42);
+	texCol->Draw();
+
+	// Horizontal line Tower 4//
+
+
+	TLine *l8 = new TLine(x4,Ymin,x4,Ymax);
+	l8->SetLineWidth(1);
+	l8->Draw("same");
+
+
+	TLatex* texCol;
+	texCol= new TLatex(x4,Ymax,"Column 4");
+	texCol->SetTextAlign(33);
+	texCol->SetTextSize(0.03);
+	texCol->SetTextFont(42);
+	texCol->Draw();
+
+
+	// Horizontal line Tower 3 //
+
+	TLine *l9 = new TLine(x5,Ymin,x5,Ymax);
+	l9->SetLineWidth(1);
+	l9->Draw("same");
+
+
+	TLatex* texCol;
+	texCol= new TLatex(x5,Ymax,"Column 5");
+	texCol->SetTextAlign(33);
+	texCol->SetTextSize(0.03);
+	texCol->SetTextFont(42);
+	texCol->Draw();
+
+
+	// Horizontal line Tower 2 //
+
+
+		}
+
+	if(year == 2018){
 	// Horizontal line Tower 6 //
 	TLine *l1 = new TLine(Xmin,y1,Xmax,y1);
 	l1->SetLineWidth(1);
@@ -604,7 +785,7 @@ TitleName = Form("%s_%s_%s_%s",Yeartag.Data(),Typetag.Data(),Methodtag.Data(),re
 	texCol->SetTextSize(0.03);
 	texCol->SetTextFont(42);
 	texCol->Draw();
-
+	}
 
 	if(reverse ==1)
 	{	

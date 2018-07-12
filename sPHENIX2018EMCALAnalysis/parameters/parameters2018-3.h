@@ -10,7 +10,10 @@ int doNormalize=1;
 int runinfo =1;
 int dointer = 0;
 int DrawLine = 1;
-int sPHENIXStyle =0;
+int sPHENIXStyle = 0;
+int hodoX =0;
+int hodoY =1;
+
 //TString InputFile = "/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib_tilted/dst.lst_EMCalCalib.root";
 //TString InputFile = "/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib/dst.lst_EMCalCalib.root";
 //TString InputFile ="/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib_tilted/dst.lst_EMCalCalib.root";
@@ -91,11 +94,10 @@ const int HisEmax = 12.0;
 */
 
 double LowEThres = 2.0;
-double HighEThres = 10.0;
+double HighEThres = 11.0;
 
-const double FitEmin = 0;
-const double FitEmax = 12.0;
-
+const double FitEmin = 5.0;
+const double FitEmax = 10.0;
 const int HisEmin = 0.0;
 const int HisEmax = 12.0;
 

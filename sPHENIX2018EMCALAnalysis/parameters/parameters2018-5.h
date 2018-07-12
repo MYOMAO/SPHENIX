@@ -11,7 +11,8 @@ int runinfo =0;
 int dointer = 0;
 int DrawLine = 0;
 int sPHENIXStyle = 0;
-
+int hodoX =1;
+int hodoY =1;
 //TString InputFile = "/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib_tilted/dst.lst_EMCalCalib.root";
 //TString InputFile = "/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib/dst.lst_EMCalCalib.root";
 //TString InputFile ="/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib_tilted/dst.lst_EMCalCalib.root";
@@ -41,8 +42,8 @@ TString InterpolatedFile =Form("ROOTFiles/%d/Interpolated2Reversed.root",year);
 TString ProjectionFile =Form("ROOTFiles/%d/Projection.root",year);
 TString RMSFile =Form("ROOTFiles/%d/sPHENIXRotationRMS.root",year);
 
-const int Xmin = 350 - correction;  
-const int Xmax = 565 - correction;
+const int Xmin = 380 - correction;  
+const int Xmax = 600 - correction;
 const int Ymin = 10 - correction;
 const int Ymax = 210 - correction;
 const int Emin = 0;
@@ -80,12 +81,11 @@ const double FitEmax = 11.0;
 const int HisEmin = 2.0;
 const int HisEmax = 12.0;
 */
-
 double LowEThres = 2.0;
-double HighEThres = 10.0;
+double HighEThres = 11.0;
 
 const double FitEmin = 5.0;
-const double FitEmax = 9.0;
+const double FitEmax = 10.0;
 
 const int HisEmin = 0;
 const int HisEmax = 12.0;
@@ -111,8 +111,8 @@ int ThresY= 5;
 int ThresYH = 15;
 
 
-double yshift = -49;
-double xshift = -28;
+double yshift = 0;
+double xshift = 0;
 
 
 //const int Runmin = 901;  
@@ -137,27 +137,28 @@ const int StatBins = StatBinsCal;
 //
 
 //Set Tower Horizontal Lines//
-double y1 = 82 + yshift;
-double y2 = 107 + yshift;
-double y3 = 132 + yshift;
-double y4 = 157 + yshift;
-double y5 = 182 + yshift;
-double y6 = 207 + yshift;
-double y7 = 232 + yshift;
+double y1 = 33 + yshift;
+double y2 = 57 + yshift;
+double y3 = 83 + yshift;
+double y4 = 108 + yshift;
+double y5 = 135 + yshift;
+double y6 = 157 + yshift;
+double y7 = 183 + yshift;
 
-double x1 = 417 + xshift;
-double x2 = 442 + xshift;
-double x3 = 467 + xshift;
+double x1 = 414 + xshift;
+double x2 = 441 + xshift;
+double x3 = 468 + xshift;
 double x4 = 492 + xshift;
-double x5 = 517 + xshift;
-double x6 = 542 + xshift;
+double x5 = 523 + xshift;
+double x6 = 549 + xshift;
+double x7 = 577 + xshift;
 
 
-double YBL = 137;
-double YBR = 235;
+double YBL = y1;
+double YBR = y5;
 
-double XBL = 443;
-double XBR = 532;
+double XBL = x2;
+double XBR = x6;
 
 //Projection Centers//
 
@@ -201,7 +202,12 @@ double ProjectionstepY = (y2 - y1)/2;
 const int Binwidth = 10;
 
 const int NTowerX = 7;
-const int NTowerY = 8;
+const int NTowerY = 7;
+
+
+double xinitial[NTowerX*2-1] = {x1,(x1+x2)/2,x2,(x2+x3)/2,x3,(x3+x4)/2,x4,(x4+x5)/2,x5,(x5+x6)/2,x6,(x6+x7)/2,x7};
+double yinitial[NTowerY*2-1] = {y1,(y1+y2)/2,y2,(y2+y3)/2,y3,(y3+y4)/2,y4,(y4+y5)/2,y5,(y5+y6)/2,y6,(y6+y7)/2,y7};
+
 
 //HisFiles//
 //

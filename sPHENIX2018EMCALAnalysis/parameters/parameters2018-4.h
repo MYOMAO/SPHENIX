@@ -11,7 +11,8 @@ int runinfo =0;
 int dointer = 0;
 int DrawLine = 0;
 int sPHENIXStyle = 0;
-
+int hodoX =0;
+int hodoY =1;
 //TString InputFile = "/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib_tilted/dst.lst_EMCalCalib.root";
 //TString InputFile = "/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib/dst.lst_EMCalCalib.root";
 //TString InputFile ="/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib_tilted/dst.lst_EMCalCalib.root";
@@ -84,10 +85,10 @@ const int HisEmax = 12.0;
 */
 
 double LowEThres = 2.0;
-double HighEThres = 10.0;
+double HighEThres = 11.0;
 
 const double FitEmin = 5.0;
-const double FitEmax = 9.0;
+const double FitEmax = 10.0;
 
 const int HisEmin = 0;
 const int HisEmax = 12.0;
@@ -139,27 +140,27 @@ const int StatBins = StatBinsCal;
 //
 
 //Set Tower Horizontal Lines//
-double y1 = 82 + yshift;
-double y2 = 107 + yshift;
-double y3 = 132 + yshift;
-double y4 = 157 + yshift;
-double y5 = 182 + yshift;
-double y6 = 207 + yshift;
-double y7 = 232 + yshift;
+double y1 = 39 + yshift;
+double y2 = 65 + yshift;
+double y3 = 92 + yshift;
+double y4 = 118 + yshift;
+double y5 = 145 + yshift;
+double y6 = 170 + yshift;
+double y7 = 196 + yshift;
 
-double x1 = 402 + xshift;
-double x2 = 427 + xshift;
-double x3 = 452 + xshift;
-double x4 = 477 + xshift;
-double x5 = 502 + xshift;
-double x6 = 527 + xshift;
-double x7 = 552 + xshift;
+double x1 = 358 + xshift;
+double x2 = 385 + xshift;
+double x3 = 413 + xshift;
+double x4 = 442 + xshift;
+double x5 = 468 + xshift;
+double x6 = 497 + xshift;
+double x7 = 525 + xshift;
 
-double YBL = 137;
-double YBR = 235;
+double YBL = y1;
+double YBR = y5;
 
-double XBL = 443;
-double XBR = 532;
+double XBL = x2;
+double XBR = x6;
 
 //Projection Centers//
 
@@ -202,9 +203,12 @@ double ProjectionstepX = (x2 - x1)/2;
 double ProjectionstepY = (y2 - y1)/2;
 const int Binwidth = 10;
 
-const int NTowerX = 8;
-const int NTowerY = 8;
+const int NTowerX = 6;
+const int NTowerY = 6;
 
+
+double xinitial[NTowerX*2-1] = {x1,(x1+x2)/2,x2,(x2+x3)/2,x3,(x3+x4)/2,x4,(x4+x5)/2,x5,(x5+x6)/2,x6};
+double yinitial[NTowerY*2-1] = {y1,(y1+y2)/2,y2,(y2+y3)/2,y3,(y3+y4)/2,y4,(y4+y5)/2,y5,(y5+y6)/2,y6};
 //HisFiles//
 //
 

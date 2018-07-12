@@ -1,18 +1,9 @@
-int year = 2018;
-int inputfile =0;
-int newdata = 0;
+int inputfile =1;
 int debug = 1;
 int Method = 1;
 int reverse =1;
 int PosFix =1;
 int recab = 1;
-int doNormalize=1;
-int runinfo =1;
-int dointer = 0;
-int DrawLine = 1;
-int sPHENIXStyle = 0;
-int hodoX =0;
-int hodoY =1;
 //TString InputFile = "/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib_tilted/dst.lst_EMCalCalib.root";
 //TString InputFile = "/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib/dst.lst_EMCalCalib.root";
 //TString InputFile ="/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/ShowerCalib_tilted/dst.lst_EMCalCalib.root";
@@ -21,43 +12,30 @@ int hodoY =1;
 //TString InputFile ="/sphenix/user/zshi/sPHENIX/2018TestBeam/MyCode/EnergyScan/Codes/analysis/Prototype4/EMCal/macros/ScanList.list_EMCalCalib.root";
 
 
-
-//TString InputFile ="/sphenix/user/zshi/sPHENIX/2018TestBeam/MyCode/EnergyScan/Codes/analysis/Prototype4/EMCal/macros/ScanListsPHENIX.list_EMCalCalib.root";
-
-//TString InputFile ="/sphenix/user/zshi/sPHENIX/2018TestBeam/MyCode/EnergyScan/Codes/analysis/Prototype4/EMCal/macros/ScanListDual.list_EMCalCalib.root";
+TString InputFile ="/sphenix/user/zshi/sPHENIX/2018TestBeam/MyCode/EnergyScan/Codes/analysis/Prototype4/EMCal/macros/ScanListsPHENIX.list_EMCalCalib.root";
 
 //TString InputFile ="/sphenix/user/zshi/sPHENIX/2018TestBeam/MyCode/EnergyScan/Codes/analysis/Prototype4/EMCal/macros/ScanListDual.list_EMCalCalib.root";
 
+//TString InputFile="/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/4thPositionScan/dst.lst_EMCalCalib.root";
 
-TString InputFile="/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/4thPositionScan/dst.lst_EMCalCalib.root";
 //TString InputFile = "/phenix/u/jinhuang/links/sPHENIX_work/Prototype_2018/3rdPositionScan/dst.lst_EMCalCalib.root";
 
 TString scale = "0.13";
 TString scalerecab= "0.13";
-TString PositionFile = "DatFiles/XYPosition4.dat";
+TString PositionFile = "DatFiles/XYPosition3.dat";
 TString MakePlotInf="HisFiles/HisAll.root";
 TString PosFixOut="ROOTFiles/PosFix.root";
 TString OutFileMakeFile = "ROOTFiles/His3.root";
 TString OutFileReadHis2 = "ROOTFiles/EnergyPosition.root";
 TString OutFileInter = "ROOTFiles/Interpolated.root";
 TString HodoScope = "ROOTFiles/AVHS.root";
-TString InterpolatedFile =Form("ROOTFiles/%d/Interpolated2Reversed.root",year);
-TString ProjectionFile =Form("ROOTFiles/%d/Projection.root",year);
-TString RMSFile =Form("ROOTFiles/%d/DualChannelRMS.root",year);
 
-int correction = 2;
-
-const int Xmin = 400 - correction;  
-const int Xmax = 600 - correction;
-const int Ymin = 80 - correction;
-const int Ymax = 280 - correction;
-const int Emin = 2.0;
+const int Xmin = 400;  
+const int Xmax = 580;
+const int Ymin = 80;
+const int Ymax = 285;
+const int Emin = 1.5;
 const int Emax = 8.0;
-const int Statmin = 0;
-const int Statmax = 100;
-
-
-
 
 /*
 const int Xmin = 400;  
@@ -74,13 +52,10 @@ const double EminHis = 2.5;
 const double EmaxHis = 5.5;
 
 
-const double Xstep =5;
-const double Ystep =5;
-const double XProjstep =5;
-const double YProjstep =5;
+const double Xstep =1;
+const double Ystep =1;
 const double Estep = 0.2;
 const double Runstep = 1;
-const int Statstep = 5;
 /*
 double LowEThres = 2;
 double HighEThres = 10;
@@ -102,11 +77,6 @@ const int HisEmin = 0.0;
 const int HisEmax = 10.0;
 
 
-double YBL = 133;
-double YBR = 230;
-
-double XBL = 443;
-double XBR = 543;
 
 //For the 0 Degree Scan//
 /*
@@ -127,8 +97,8 @@ int ThresY= 50;
 int ThresYH = 20;
 
 
-double yshift = 27;
-double xshift =11;
+double yshift = 21;
+double xshift =8;
 
 
 //const int Runmin = 901;  
@@ -136,24 +106,19 @@ double xshift =11;
 //const int Runmin =380;  
 //const int Runmax=420;
 
-const int Runmin = 995;  
-const int Runmax= 1086;
+const int Runmin = 901;  
+const int Runmax= 995;
 
 const int XBinsCal = (Xmax - Xmin)/Xstep;
 const int YBinsCal =  (Ymax - Ymin)/Ystep;
 const int EBinsCal = (Emax - Emin)/Estep;
 const int RunBinCal = (Runmax - Runmin)/Runstep;
-const int StatBinsCal = (Statmax - Statmin)/Statstep;
-
 
 const int XBins = XBinsCal;
 const int YBins = YBinsCal;
 const int EBins = EBinsCal;
 const int RunBins = RunBinCal;
-const int StatBins = StatBinsCal;
 //
-
-
 
 //Set Tower Horizontal Lines//
 double y1 = 82 + yshift;
@@ -173,48 +138,24 @@ double x6 = 542 + xshift;
 
 
 
-
-
-double cxshfit = 12; 
-double cyshift = 6;
-
-
-double cy1 = 91.7 + cyshift;
-double cy2 = 116.4 + cyshift;
-double cy3 = 140.6 + cyshift;
-double cy4 = 165.1 + cyshift;
-double cy5 = 189.3 + cyshift;
-double cy6 = 213.6 + cyshift;
-double cy7 = 237.7 + cyshift;
-double cy8 = 261.8 + cyshift;
-
-double cx1 = 427.6 - cxshfit;
-double cx2 = 453.5 - cxshfit;
-double cx3 = 481.3 - cxshfit;
-double cx4 = 507.3 - cxshfit;
-double cx5 = 533.8 - cxshfit;
-double cx6 = 559.8 - cxshfit;
-double cx7 = 585.1 - cxshfit;
-
-
 //Set Tower Vertical Lines//
 
 
-const int iFile = 995;
-const int fFile = 1086;
+const int iFile = 901;
+const int fFile = 995;
 
 //const int nFiles = fFile-iFile+1;
-const int nFiles = 86;
+const int nFiles = 82;
 
 double ProjectionXmin = x1;
 double ProjectionYmin = y1;
 
 double ProjectionstepX = (x2 - x1)/2;
 double ProjectionstepY = (y2 - y1)/2;
-const int Binwidth = 10;
+const Binwidth = 10;
 
-const int NTowerX = 7;
-const int NTowerY = 8;
+const int NTowerX = 6;
+const int NTowerY = 7;
 
 //HisFiles//
 //
