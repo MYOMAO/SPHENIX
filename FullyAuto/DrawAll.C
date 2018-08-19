@@ -19,7 +19,7 @@ using std::endl;
 
 void DrawAll()
 {
-	int DrawMode = 0;
+	int DrawMode = 1;
 
 	//gROOT->LoadMacro("sPhenixStyle.C");
 	//SetsPhenixStyle();
@@ -29,38 +29,42 @@ void DrawAll()
 	TFile *fin2;
 	TFile *fin3;
 	TFile *fin4;
-
-if(DrawMode=1){
-	fin1 = new TFile("ROOTFiles/2017/Projection2nd.root");
-	fin2 = new TFile("ROOTFiles/2017/Projection3rd.root");
-	fin3 = new TFile("ROOTFiles/2018/Projection3rd.root");
-	fin4 = new TFile("ROOTFiles/2018/Projection4th.root");
+	TFile *fin5;
+if(DrawMode==1){
+	fin1 = new TFile("ROOTFiles/20172ndRMS.root");
+	fin2 = new TFile("ROOTFiles/20173rdRMS.root");
+	fin3 = new TFile("ROOTFiles/20183rdRMS.root");
+	fin4 = new TFile("ROOTFiles/20184thRMS.root");
 	}
 
 
-if(DrawMode=0){
-	fin1 = new TFile("ROOTFiles/2017/Projection2nd.root");
-	fin2 = new TFile("ROOTFiles/2017/Projection3rd.root");
-	fin3 = new TFile("ROOTFiles/2018/Projection5th.root");
-	fin4 = new TFile("ROOTFiles/2018/Projection7th.root");
+if(DrawMode==0){
+	fin1 = new TFile("ROOTFiles/20172ndRMS.root");
+	fin2 = new TFile("ROOTFiles/20173rdRMS.root");
+	fin3 = new TFile("ROOTFiles/20185thRMS.root");
+	fin4 = new TFile("ROOTFiles/20186thRMS.root");
+	fin5 = new TFile("ROOTFiles/20187thRMS.root");
+
 	}
 
 	TH1D * h1 = (TH1D *) fin1->Get("MEHisRe");
 	TH1D * h2 = (TH1D *) fin2->Get("MEHisRe");
 	TH1D * h3 = (TH1D *) fin3->Get("MEHisRe");
 	TH1D * h4 = (TH1D *) fin4->Get("MEHisRe");
-/*
+if(DrawMode==0) 	TH1D * h5 = (TH1D *) fin5->Get("MEHisRe");
+
 	h1->Rebin(2);
 	h2->Rebin(2);
 	h3->Rebin(2);
 	h4->Rebin(2);
-*/
+if(DrawMode==0) 	h5->Rebin(2);
+
 	TCanvas  * c = new TCanvas("c","c",1200,1200);
 	c->cd();
 	h3->SetTitle("2018 and 2018 Position Scan Rescaled Mean Energy Distribution Comparison Plot");
 	h3->GetXaxis()->SetTitle("Rescaled Mean Energy");
 	h3->GetYaxis()->SetTitle("Probability/Bin");
-
+	h3->GetYaxis()->SetTitleOffset(1.4);
 	h3->SetMaximum(0.45);
 	h3->SetLineColor(kBlue);
 	h3->SetLineWidth(4.5);
@@ -76,21 +80,43 @@ if(DrawMode=0){
 	h4->SetLineWidth(9);
 	h4->SetLineStyle(2);
 	h4->Draw("SAME");
+if(DrawMode==0) {
 
-	TLegend * l = new TLegend(0.25,0.72,0.95,0.93);
-	l->AddEntry(h1,"2018 sPHENIX Rotation Scan - RMS/Mean = 0.0767","l");
-	l->AddEntry(h2,"2018 Dual Channeling Scan - RMS/Mean = 0.0824","l");
-	l->AddEntry(h3,"2017 10 Degree Tilted Scan - RMS/Mean = 0.0663","l");
-	l->AddEntry(h4,"2017 0 Degree Tilted Scan - RMS/Mean = 0.0962","l");
+	h5->SetLineColor(kGreen);
+	h5->SetLineWidth(9);
+	h5->SetLineStyle(2);
+	h5->Draw("SAME");
+
+}
+
+	TLegend * l = new TLegend(0.15,0.62,0.85,0.83);
+	if(DrawMode == 1)
+	{
+	l->AddEntry(h1,"2017 2nd 10 Degree Tilted Scan - RMS/Mean = 0.0749","l");
+	l->AddEntry(h2,"2017 3rd 0 Degree Tilted Scan - RMS/Mean = 0.0905","l");
+	l->AddEntry(h3,"2018 3rd Dual Channeling Scan - RMS/Mean = 0.0847","l");
+	l->AddEntry(h4,"2018 4th sPHENIX Rotation Scan - RMS/Mean = 0.0700","l");
+
+	}
+	if(DrawMode == 0)
+	{
+	l->AddEntry(h1,"2017 2nd 10 Degree Tilted Scan - RMS/Mean = 0.0749","l");
+	l->AddEntry(h2,"2017 3rd 0 Degree Tilted Scan - RMS/Mean = 0.0905","l");
+	l->AddEntry(h3,"2018 5rd Dual Channeling Scan - RMS/Mean = 0.819","l");
+	l->AddEntry(h4,"2018 6th sPHENIX + 5 Scan - RMS/Mean = 0.0682","l");
+	l->AddEntry(h5,"2017 7th sPHENIX Rotation Scan - RMS/Mean = 0.787","l");
+	}
+
 	l->Draw("SAME");
 
-	c->SaveAs("AllComparison.png");
-	TFile *fout = new TFile("AllComparison.root","RECREATE");
+	c->SaveAs(Form("AllComparison/AllComparison%d.png",DrawMode));
+	TFile *fout = new TFile(Form("AllComparison%d.root",DrawMode),"RECREATE");
 	fout->cd();
 	h1->Write();
 	h2->Write();
 	h3->Write();
 	h4->Write();
+	if(DrawMode == 0) h5->Write();
 	fout->Close();
 }
 
