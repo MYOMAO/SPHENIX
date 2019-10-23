@@ -9,7 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include "parameters.h"
-#include "Variable.h"
+//#include "Variable.h"
 
 using namespace std;
 
@@ -17,17 +17,17 @@ using namespace std;
 
 using std::cout;
 using std::endl;
-#endif
+
 
 void Projection2018()
 {
-
 
 	gSystem->Load("libg4eval.so");
 	gSystem->Load("libqa_modules.so");
 	gSystem->Load("libPrototype3.so");
 	gStyle->SetOptFit(0);
 	gStyle->SetOptStat(0);
+	gStyle->SetPalette(55);
 	TString Yeartag = Form("%d",year);
 	TString Methodtag;
 	TString recabtag;
@@ -50,9 +50,17 @@ void Projection2018()
 		if ( inputfile==1) Typetag = "Interpolation-sPHENIX-Rotation-Reversed";
 		if ( inputfile==0) Typetag = "Interpolation-Dual-Channel-Reversed";
 	}
+	if(newdata == 2)
+	{
+		if ( inputfile==2) Typetag = "G4Simulations-10-Degrees";
+		if ( inputfile==1) 	Typetag = "G4Simulations-5-Degrees";
+		if ( inputfile==0) Typetag = "G4Simulations-0-Dergee";
 
-
-
+	}
+	TH2D * InterNew;
+	TLatex* texCol;
+	TH1D * ProjXHis;
+	TH1D * ProjYHis;
 
 	TString OutPlotName;
 	OutPlotName = Form("Results/%s_%s_%s_%s.png",Yeartag.Data(),Typetag.Data(),Methodtag.Data(),recabtag.Data());
@@ -72,6 +80,13 @@ void Projection2018()
 			if ( inputfile==1) TitleName = "Fourth Position Scan (2018a, March 2018, sPHENIX)";
 		}
 
+		if(newdata == 2)
+		{
+			if ( inputfile==0) TitleName = "2018 sPHENIX Simulation (eta ~ 1) 0 Degree";
+			if ( inputfile==1) TitleName = "2018 sPHENIX Simulation (eta ~ 1) 5 Degree";
+			if ( inputfile==2) TitleName = "2018 sPHENIX Simulation (eta ~ 1) 10 Degree";	
+		}
+
 	}
 
 	if(year == 2017){
@@ -86,19 +101,19 @@ void Projection2018()
 	}
 	if(dointer == 0){
 		TFile * fin = new TFile(OutFileReadHis2.Data());
-		TH2D * InterNew = (TH2D *) fin->Get("EnPo");
+		InterNew = (TH2D *) fin->Get("EnPo");
 		InterNew->SetMinimum(EminHis);
 		InterNew->SetMaximum(EmaxHis);
-
 	}
+
 	int XBinMin = InterNew->GetXaxis()->FindBin(Xmin);
 	int XBinMax = InterNew->GetXaxis()->FindBin(Xmax);
 
 	int YBinMin = InterNew->GetYaxis()->FindBin(Ymin);
 	int YBinMax = InterNew->GetYaxis()->FindBin(Ymax);
 
-
 	cout << "Inter Counts = " << InterNew->Integral() << endl;
+
 	TH2D * Inter = new TH2D("Inter","Inter",XBins, Xmin,Xmax,YBins,Ymin,Ymax);
 	Inter->GetXaxis()->SetTitle("Horiztontal Position (mm)");
 	Inter->GetYaxis()->SetTitle("Vertical Postion (mm)");
@@ -108,7 +123,7 @@ void Projection2018()
 
 	TCanvas *c22 = new TCanvas("c22", "c22",0,0,800,600);
 	c22->cd();
-	if(reverse ==1){
+	if(Reverse ==1){
 		for(int i = XBinMin; i < XBinMax; i++)
 		{
 			int iNow = XBinMax - i;
@@ -126,20 +141,19 @@ void Projection2018()
 	TFile *fout = new TFile(ProjectionFile.Data(),"RECREATE");
 	fout->cd();
 	Inter->Write();
-	fout->Close();
+
 
 	Inter->GetXaxis()->SetTitleOffset(1.4);
 	Inter->Draw("colz");
 
 
 	// Horizontal line Tower 6 //
-	TLine *l1 = new TLine(Xmin,y1,Xmax,y1);
+	TLine *l1 = new TLine(Xmin,Y1,Xmax,Y1);
 	l1->SetLineWidth(1);
 	l1->Draw("same");
 
 
-	TLatex* texCol;
-	texCol= new TLatex(Xmin,y1,"Row 1");
+	texCol= new TLatex(Xmin,Y1,"Row 1");
 	texCol->SetTextAlign(11);
 	texCol->SetTextSize(0.03);
 	texCol->SetTextFont(42);
@@ -149,13 +163,13 @@ void Projection2018()
 	// Horizontal line Tower 5 //
 
 
-	TLine *l2 = new TLine(Xmin,y2,Xmax,y2);
+	TLine *l2 = new TLine(Xmin,Y2,Xmax,Y2);
 	l2->SetLineWidth(1);
 	l2->Draw("same");
 
 
 
-	texCol= new TLatex(Xmin,y2,"Row 2");
+	texCol= new TLatex(Xmin,Y2,"Row 2");
 	texCol->SetTextAlign(11);
 	texCol->SetTextSize(0.03);
 	texCol->SetTextFont(42);
@@ -164,13 +178,13 @@ void Projection2018()
 	// Horizontal line Tower 4//
 
 
-	TLine *l3 = new TLine(Xmin,y3,Xmax,y3);
+	TLine *l3 = new TLine(Xmin,Y3,Xmax,Y3);
 	l3->SetLineWidth(1);
 	l3->Draw("same");
 
 
 
-	texCol= new TLatex(Xmin,y3,"Row 3");
+	texCol= new TLatex(Xmin,Y3,"Row 3");
 	texCol->SetTextAlign(11);
 	texCol->SetTextSize(0.03);
 	texCol->SetTextFont(42);
@@ -181,13 +195,13 @@ void Projection2018()
 	// Horizontal line Tower 3 //
 
 
-	TLine *l4 = new TLine(Xmin,y4,Xmax,y4);
+	TLine *l4 = new TLine(Xmin,Y4,Xmax,Y4);
 	l4->SetLineWidth(1);
 	l4->Draw("same");
 
 
 
-	texCol= new TLatex(Xmin,y4,"Row 4");
+	texCol= new TLatex(Xmin,Y4,"Row 4");
 	texCol->SetTextAlign(11);
 	texCol->SetTextSize(0.03);
 	texCol->SetTextFont(42);
@@ -196,14 +210,14 @@ void Projection2018()
 	// Horizontal line Tower 2 //
 
 
-	TLine *l4 = new TLine(Xmin,y5,Xmax,y5);
-	l4->SetLineWidth(1);
-	l4->Draw("same");
+	TLine *l5 = new TLine(Xmin,Y5,Xmax,Y5);
+	l5->SetLineWidth(1);
+	l5->Draw("same");
 
 
 
 
-	texCol= new TLatex(Xmin,y5,"Row 5");
+	texCol= new TLatex(Xmin,Y5,"Row 5");
 	texCol->SetTextAlign(11);
 	texCol->SetTextSize(0.03);
 	texCol->SetTextFont(42);
@@ -212,13 +226,13 @@ void Projection2018()
 
 	// Horizontal line Tower 1 //
 	if(year == 2018){
-		TLine *l12 = new TLine(Xmin,y6,Xmax,y6);
+		TLine *l12 = new TLine(Xmin,Y6,Xmax,Y6);
 		l12->SetLineWidth(1);
 		l12->Draw("same");
 
 
-		TLatex* texCol;
-		texCol= new TLatex(Xmin,y6,"Row 6");
+
+		texCol= new TLatex(Xmin,Y6,"Row 6");
 		texCol->SetTextAlign(11);
 		texCol->SetTextSize(0.03);
 		texCol->SetTextFont(42);
@@ -246,7 +260,6 @@ void Projection2018()
 	l14->Draw("same");
 
 
-	TLatex* texCol;
 	texCol= new TLatex(x1,Ymax,"Column 1");
 	texCol->SetTextAlign(33);
 	texCol->SetTextSize(0.03);
@@ -260,7 +273,6 @@ void Projection2018()
 	l6->Draw("same");
 
 
-	TLatex* texCol;
 	texCol= new TLatex(x2,Ymax,"Column 2");
 	texCol->SetTextAlign(33);
 	texCol->SetTextSize(0.03);
@@ -275,8 +287,6 @@ void Projection2018()
 	l7->SetLineWidth(1);
 	l7->Draw("same");
 
-
-	TLatex* texCol;
 	texCol= new TLatex(x3,Ymax,"Column 3");
 	texCol->SetTextAlign(33);
 	texCol->SetTextSize(0.03);
@@ -291,7 +301,6 @@ void Projection2018()
 	l8->Draw("same");
 
 
-	TLatex* texCol;
 	texCol= new TLatex(x4,Ymax,"Column 4");
 	texCol->SetTextAlign(33);
 	texCol->SetTextSize(0.03);
@@ -306,7 +315,6 @@ void Projection2018()
 	l9->Draw("same");
 
 
-	TLatex* texCol;
 	texCol= new TLatex(x5,Ymax,"Column 5");
 	texCol->SetTextAlign(33);
 	texCol->SetTextSize(0.03);
@@ -323,7 +331,6 @@ void Projection2018()
 		l10->Draw("same");
 
 
-		TLatex* texCol;
 		texCol= new TLatex(x6,Ymax,"Column 6");
 		texCol->SetTextAlign(33);
 		texCol->SetTextSize(0.03);
@@ -338,7 +345,6 @@ void Projection2018()
 			l11->Draw("same");
 
 
-			TLatex* texCol;
 			texCol= new TLatex(x7,Ymax,"Column 7");
 			texCol->SetTextAlign(33);
 			texCol->SetTextSize(0.03);
@@ -351,7 +357,6 @@ void Projection2018()
 			l14->Draw("same");
 
 
-			TLatex* texCol;
 			texCol= new TLatex(x7+8,Ymax,"Column 8");
 			texCol->SetTextAlign(13);
 			texCol->SetTextSize(0.03);
@@ -360,7 +365,7 @@ void Projection2018()
 		}
 	}
 
-	if(reverse ==1)
+	if(Reverse ==1)
 	{	
 
 
@@ -388,8 +393,8 @@ void Projection2018()
 	//TH2D* hNor = (TH2D*)Inter->Clone("hNor");
 	int blockxmin =  Inter->GetXaxis()->FindBin(x3);
 	int blockxmax =  Inter->GetXaxis()->FindBin(x5);
-	int blockymin =  Inter->GetYaxis()->FindBin(y3);
-	int blockymax =  Inter->GetYaxis()->FindBin(y5);
+	int blockymin =  Inter->GetYaxis()->FindBin(Y3);
+	int blockymax =  Inter->GetYaxis()->FindBin(Y5);
 
 	double TotalSum = Inter->Integral(blockxmin,blockxmax,blockymin,blockymax);
 	double TotalBin = (blockxmax - blockxmin+1) * (blockymax - blockymin+1);
@@ -439,7 +444,7 @@ void Projection2018()
 	int stepwidth = Binwidth/2;
 	int Wide;
 	cout << "NTowerY*2-1 = " << NTowerY*2-1 << endl;
-	if(doNormalize =1) {
+	if(doNormalize==1) {
 		Inter->Scale(1.0/scaling);
 		Inter->SetMinimum(0.6);
 		Inter->SetMaximum(1.1);
@@ -451,17 +456,16 @@ void Projection2018()
 		ReverseXAxis(Inter);
 		ReverseYAxis(Inter);
 
-		TLine *B1 = new TLine(x3,y3,x3,y5);
+		TLine *B1 = new TLine(x3,Y3,x3,Y5);
 		B1->SetLineWidth(1);
 		B1->Draw("same");
-
-		TLine *B2 = new TLine(x5,y3,x5,y5);
+		TLine *B2 = new TLine(x5,Y3,x5,Y5);
 		B2->SetLineWidth(1);
 		B2->Draw("same");
-		TLine *B3 = new TLine(x3,y3,x5,y3);
+		TLine *B3 = new TLine(x3,Y3,x5,Y3);
 		B3->SetLineWidth(1);
 		B3->Draw("same");
-		TLine *B4 = new TLine(x3,y5,x5,y5);
+		TLine *B4 = new TLine(x3,Y5,x5,Y5);
 		B4->SetLineWidth(1);
 		B4->Draw("same");
 
@@ -484,9 +488,11 @@ void Projection2018()
 		RightBin = Inter->GetXaxis()->FindBin(right);
 		Inter->GetXaxis()->SetTitleOffset(1.4);
 		Inter->Draw("colz");
-		Inter->SetMinimum(0.6);
-		Inter->SetMaximum(1.1);
 
+		if(doNormalize==1){
+			Inter->SetMinimum(0.6);
+			Inter->SetMaximum(1.1);
+		}
 		//Binwidth = RightBin - LeftBin;
 
 		cout << "left = " << left << " right = " << right << endl;
@@ -507,15 +513,26 @@ void Projection2018()
 		c23->Update();
 
 		c23->SaveAs(Outname);
-		TH1D * ProjXHis = new TH1D("ProjXHis","ProjXHis",EBins, Emin, Emax);
+		ProjXHis = new TH1D("ProjXHis","ProjXHis",EBins, Emin, Emax);
 		Inter->ProjectionY("ProjXHis",LeftBin,RightBin);
 		ProjXHis->GetXaxis()->SetTitle("y (mm)");
 		ProjXHis->GetYaxis()->SetTitle("Energy (GeV)");
 		ProjXHis->SetTitle("10 Y Bin Energy Distribution");
+		//	ProjXHis->Write();
 		ProjXHis->Scale(1.0/(Wide));
-		ProjXHis->SetMinimum(0.0);
-		ProjXHis->SetMaximum(1.25);
+		if(doNormalize == 1){
+			ProjXHis->SetMinimum(0.0);
+			ProjXHis->SetMaximum(1.25);
+		}
+		if(doNormalize == 0){
+			ProjXHis->SetMinimum(HisEmin);
+			ProjXHis->SetMaximum(HisEmax);
+		}
+
+
 		ProjXHis->Draw();
+
+
 		ReverseXAxis(ProjXHis);
 		c23->Update();
 		TString OutnameProjX = Form("Results/%d/%s/ProjectionX%d.png",year,ordertag.Data(),i);
@@ -570,6 +587,10 @@ void Projection2018()
 		Inter->SetMinimum(0.6);
 		Inter->SetMaximum(1.1);
 
+		cout << "down = " << down << " up = " << up << endl;
+		cout << " DownBin = " << DownBin << "  RightBin = " << UpBin << "  Binwidth = " << Binwidth << endl;
+		Wide = UpBin - DownBin + 1;
+
 		TLine *l1 = new TLine(Xmin,down,Xmax,down);
 
 		l1->SetLineWidth(2);
@@ -585,14 +606,24 @@ void Projection2018()
 
 		c22->SaveAs(Outname);
 
-		TH1D * ProjYHis = new TH1D("ProjYHis","ProjYHis",EBins, Emin, Emax);
+		ProjYHis = new TH1D("ProjYHis","ProjYHis",EBins, Emin, Emax);
 		Inter->ProjectionX("ProjYHis",DownBin,UpBin);
 		ProjYHis->GetXaxis()->SetTitle("x (mm)");
 		ProjYHis->GetYaxis()->SetTitle("Energy (GeV)");
 		ProjYHis->SetTitle("10 X Bin Energy Distribution");
+		//		ProjYHis->Write();	
 		ProjYHis->Scale(1.0/(Wide));
-		ProjYHis->SetMinimum(0.0);
-		ProjYHis->SetMaximum(1.25);
+
+		if(doNormalize == 1){
+			ProjYHis->SetMinimum(0.0);
+			ProjYHis->SetMaximum(1.25);
+		}
+		if(doNormalize == 0){
+			ProjYHis->SetMinimum(HisEmin);
+			ProjYHis->SetMaximum(HisEmax);
+		}
+
+
 
 		ProjYHis->Draw();
 		ReverseXAxis(ProjYHis);
@@ -621,7 +652,7 @@ void Projection2018()
 
 
 	}
-
+	fout->Close();
 }
 
 void ReverseXAxis(TH1 *h)
